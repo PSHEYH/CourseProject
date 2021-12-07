@@ -40,7 +40,8 @@ namespace CourseProject
             new Smartphone
             {
                 Resolution=(828,1792) ,
-                Weight=196,BateryVolume=2500,
+                Weight=196,
+                BateryVolume=2500,
                 MaxFrequency=2500,
                 RAM = 4,
                 SizeOfStorage=64,
@@ -92,16 +93,16 @@ namespace CourseProject
         {
             //dataGridView2.AllowUserToAddRows = false;
             DataTable phoneTable = new DataTable("SMARTPHONES");
-            phoneTable.Columns.Add("Name");
-            phoneTable.Columns.Add("Разрешение");
-            phoneTable.Columns.Add("Вес");
+            phoneTable.Columns.Add("Ім'я");
+            phoneTable.Columns.Add("Розмірність");
+            phoneTable.Columns.Add("Вага");
             phoneTable.Columns.Add("Макс. частота процессора");
-            phoneTable.Columns.Add("Объём накопителя");
-            phoneTable.Columns.Add("Оперативная память");
-            phoneTable.Columns.Add("Объём батареи");
+            phoneTable.Columns.Add("Об'єм накопичувача");
+            phoneTable.Columns.Add("Оперативна пам'ять");
+            phoneTable.Columns.Add("Об'єм батареї");
             phoneTable.Columns.Add("Камера");
-            phoneTable.Columns.Add("Тип динамика");
-            phoneTable.Columns.Add("Цена");
+            phoneTable.Columns.Add("Тип динаміка");
+            phoneTable.Columns.Add("Ціна");
             int i = 1;
             foreach (Smartphone s in smartphones)
             {
@@ -114,12 +115,21 @@ namespace CourseProject
             dataGridView2.DataSource = phoneTable;
 
             DataTable coefOfCriterii = new DataTable();
-            coefOfCriterii.Columns.Add("№");
-            coefOfCriterii.Columns.Add("w_i", typeof(double));
+            coefOfCriterii.Columns.Add("Ім'я");
+            coefOfCriterii.Columns.Add("Розмірність",typeof(double));
+            coefOfCriterii.Columns.Add("Вага", typeof(double));
+            coefOfCriterii.Columns.Add("Макс. частота процессора", typeof(double));
+            coefOfCriterii.Columns.Add("Об'єм накопичувача", typeof(double));
+            coefOfCriterii.Columns.Add("Оперативна пам'ять", typeof(double));
+            coefOfCriterii.Columns.Add("Об'єм батареї", typeof(double));
+            coefOfCriterii.Columns.Add("Камера", typeof(double));
+            coefOfCriterii.Columns.Add("Тип динаміка", typeof(double));
+            coefOfCriterii.Columns.Add("Ціна", typeof(double));
+
             double[] weightCoefs = { 0.12, 0.1, 0.12, 0.1, 0.12, 0.12, 0.14, 0.1, 0.07 };
             for (int j = 0; j < phoneTable.Columns.Count - 1; j++)
             {
-                coefOfCriterii.Rows.Add($"C{j}", weightCoefs[j]);
+                coefOfCriterii.Rows.Add(coefOfCriterii.Columns[j + 1].ColumnName, weightCoefs[j]);
             }
 
             dataGridView4.DataSource = coefOfCriterii;
@@ -133,7 +143,7 @@ namespace CourseProject
         {
             return $"{resolution.Item1}x{resolution.Item2}";
         }
-        
+
 
         private void StartWithDigit(string cell)
         {
@@ -338,24 +348,25 @@ namespace CourseProject
         private void button2_Click(object sender, EventArgs e)
         {
             dataGridView3.Columns.Clear();
+            dataGridView3.AllowUserToAddRows = false;
             DataTable phoneTable = new DataTable("SMARTPHONES");
-            phoneTable.Columns.Add("Name");
-            phoneTable.Columns.Add("Разрешение");
-            phoneTable.Columns.Add("Вес");
+            phoneTable.Columns.Add("Ім'я");
+            phoneTable.Columns.Add("Розмірність");
+            phoneTable.Columns.Add("Вага");
             phoneTable.Columns.Add("Макс. частота процессора");
-            phoneTable.Columns.Add("Объём накопителя");
-            phoneTable.Columns.Add("Оперативная память");
-            phoneTable.Columns.Add("Объём батареи");
+            phoneTable.Columns.Add("Об'єм накопичувача");
+            phoneTable.Columns.Add("Оперативна пам'ять");
+            phoneTable.Columns.Add("Об'єм батареї");
             phoneTable.Columns.Add("Камера");
-            phoneTable.Columns.Add("Тип динамика");
-            phoneTable.Columns.Add("Цена");
-            phoneTable.Columns.Add("Коефициенты глобальных приоритетов");
+            phoneTable.Columns.Add("Тип динаміка");
+            phoneTable.Columns.Add("Ціна");
+            phoneTable.Columns.Add("Коефіцієнти глобальних пріорітетів");
 
-            int k = 1;
-            foreach (Smartphone s in smartphones)
+
+            for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
             {
-                phoneTable.Rows.Add($"Alt {k}");
-                k++;
+                phoneTable.Rows.Add($"Alt {i + 1}");
+
             }
             dataGridView3.DataSource = phoneTable;
             int rows = dataGridView2.Rows.Count - 1;
@@ -401,7 +412,7 @@ namespace CourseProject
 
 
             double[,] result = Algorithms.Normalize(resolution, prices, otherData, dataGridView3);
-            
+
             double[] globalCoef = new double[rows];
 
             for (int i = 0; i < rows; i++)
@@ -417,27 +428,6 @@ namespace CourseProject
                 dataGridView3[dataGridView3.Columns.Count - 1, i].Value = globalCoef[i];
             }
 
-        }
-        private void button3_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                DialogResult result = openFileDialog1.ShowDialog();
-
-                if (result == DialogResult.OK)
-                {
-                    fileName = openFileDialog1.FileName;
-                    Text = fileName;
-                }
-                else
-                {
-                    throw new Exception(" Файл не был выбран");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
 
@@ -457,7 +447,31 @@ namespace CourseProject
             });
 
             table = db.Tables[0];
+            dataGridView2.DataSource = table;
 
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            try
+            {
+                DialogResult result = openFileDialog1.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    fileName = openFileDialog1.FileName;
+                    Text = fileName;
+                    OpenExcelFile(fileName);
+                }
+                else
+                {
+                    throw new Exception(" Файл не був вибраний");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Помилка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
