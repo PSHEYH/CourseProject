@@ -58,6 +58,8 @@ namespace CourseProject
             this.label8 = new System.Windows.Forms.Label();
             this.dataGridView4 = new System.Windows.Forms.DataGridView();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
@@ -81,7 +83,7 @@ namespace CourseProject
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 26;
-            this.dataGridView1.Size = new System.Drawing.Size(829, 299);
+            this.dataGridView1.Size = new System.Drawing.Size(866, 299);
             this.dataGridView1.TabIndex = 0;
             // 
             // button1
@@ -192,6 +194,7 @@ namespace CourseProject
             this.tabPage1.Size = new System.Drawing.Size(1415, 468);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Ранжировка альтернатив за допомогою експертів";
+            this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
             // 
             // label4
             // 
@@ -331,7 +334,7 @@ namespace CourseProject
             this.dataGridView2.Name = "dataGridView2";
             this.dataGridView2.RowHeadersWidth = 51;
             this.dataGridView2.RowTemplate.Height = 24;
-            this.dataGridView2.Size = new System.Drawing.Size(810, 318);
+            this.dataGridView2.Size = new System.Drawing.Size(957, 318);
             this.dataGridView2.TabIndex = 0;
             // 
             // tabPage3
@@ -380,6 +383,8 @@ namespace CourseProject
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.Color.LightSalmon;
+            this.tabPage4.Controls.Add(this.button6);
+            this.tabPage4.Controls.Add(this.button5);
             this.tabPage4.Controls.Add(this.label8);
             this.tabPage4.Controls.Add(this.dataGridView4);
             this.tabPage4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -414,6 +419,26 @@ namespace CourseProject
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(30, 400);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(258, 39);
+            this.button5.TabIndex = 19;
+            this.button5.Text = "Знайти вагові коефіцієнти критеріїв";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(330, 400);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(230, 39);
+            this.button6.TabIndex = 20;
+            this.button6.Text = "завантажити з Excel файлу";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // Form1
             // 
@@ -478,6 +503,8 @@ namespace CourseProject
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.DataGridView dataGridView4;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button6;
     }
 }
 

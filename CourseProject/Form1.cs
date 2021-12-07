@@ -22,6 +22,7 @@ namespace CourseProject
 
         private string fileName = string.Empty;
         private DataTable table;
+        double[] weightCoefs = { 0.12, 0.1, 0.12, 0.1, 0.12, 0.12, 0.14, 0.1, 0.07 };
 
         List<Smartphone> smartphones = new List<Smartphone>()
         {
@@ -126,7 +127,7 @@ namespace CourseProject
             coefOfCriterii.Columns.Add("Тип динаміка", typeof(double));
             coefOfCriterii.Columns.Add("Ціна", typeof(double));
 
-            double[] weightCoefs = { 0.12, 0.1, 0.12, 0.1, 0.12, 0.12, 0.14, 0.1, 0.07 };
+            
             for (int j = 0; j < phoneTable.Columns.Count - 1; j++)
             {
                 coefOfCriterii.Rows.Add(coefOfCriterii.Columns[j + 1].ColumnName, weightCoefs[j]);
@@ -237,32 +238,6 @@ namespace CourseProject
             value = Convert.ToDouble(result);
             return value;
 
-        }
-
-        private DataTable MakeNamesTable()
-        {
-            // Create a new DataTable titled 'Names.'
-            DataTable namesTable = new DataTable("Names");
-
-            // Add three column objects to the table.
-            DataColumn idColumn = new DataColumn();
-            idColumn.DataType = System.Type.GetType("System.Int32");
-            idColumn.ColumnName = "id";
-            idColumn.AutoIncrement = true;
-            namesTable.Columns.Add(idColumn);
-
-            DataColumn fNameColumn = new DataColumn();
-            fNameColumn.DataType = System.Type.GetType("System.String");
-            fNameColumn.ColumnName = "Fname";
-            fNameColumn.DefaultValue = "Fname";
-            namesTable.Columns.Add(fNameColumn);
-
-            DataColumn lNameColumn = new DataColumn();
-            lNameColumn.DataType = System.Type.GetType("System.String");
-            lNameColumn.ColumnName = "LName";
-            namesTable.Columns.Add(lNameColumn);
-
-            return namesTable;
         }
 
 
@@ -428,10 +403,16 @@ namespace CourseProject
                 dataGridView3[dataGridView3.Columns.Count - 1, i].Value = globalCoef[i];
             }
 
+            int[] extraArray = new int[rows];
+            string resulRanking = "";
+            Algorithms.OrderByDescending(globalCoef,extraArray);
+            Algorithms.SetRanking(extraArray, globalCoef, ref resulRanking);
+            textBox3.Text = resulRanking;
+
         }
 
 
-        private void OpenExcelFile(string path)
+        private void OpenExcelFile(string path,DataGridView dataGrid)
         {
             FileStream fileStream = File.Open(path, FileMode.Open, FileAccess.Read);
 
@@ -447,7 +428,7 @@ namespace CourseProject
             });
 
             table = db.Tables[0];
-            dataGridView2.DataSource = table;
+            dataGrid.DataSource = table;
 
         }
 
@@ -461,7 +442,53 @@ namespace CourseProject
                 {
                     fileName = openFileDialog1.FileName;
                     Text = fileName;
-                    OpenExcelFile(fileName);
+                    OpenExcelFile(fileName,dataGridView2);
+                }
+                else
+                {
+                    throw new Exception(" Файл не був вибраний");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Помилка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            int rows = dataGridView4.Rows.Count;
+            int columns = dataGridView4.Columns.Count - 1;
+
+            double[,] matrixOfSimile = new double[rows, columns];
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < columns; j++)
+                {
+                    matrixOfSimile[i, j] = Convert.ToDouble(dataGridView4[j + 1, i].Value);
+                }
+            }
+
+            weightCoefs = Algorithms.GetWeights(matrixOfSimile);
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DialogResult result = openFileDialog1.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    fileName = openFileDialog1.FileName;
+                    Text = fileName;
+                    OpenExcelFile(fileName, dataGridView4);
                 }
                 else
                 {

@@ -239,15 +239,13 @@ namespace CourseProject
         }
         public static void OrderByAscending(int[] row)
         {
-            int min;
             for (int i = 0; i < row.Length - 1; i++)
             {
-                min = i;
-                for (int j = 1; j < row.Length; j++)
+                for (int j = i + 1; j < row.Length; j++)
                 {
-                    if (row[min] > row[j])
+                    if (row[i] > row[j])
                     {
-                        Swap(ref row[min], ref row[j]);
+                        Swap(ref row[i], ref row[j]);
                     }
                 }
             }
@@ -255,26 +253,46 @@ namespace CourseProject
 
         public static void OrderByAscending(double[] row, int[] addArray)
         {
-            int min;
+            
             for (int i = 0; i < row.Length; i++)
             {
                 addArray[i] = i + 1;
             }
             for (int i = 0; i < row.Length - 1; i++)
             {
-                min = i;
-                for (int j = 1; j < row.Length; j++)
+                for (int j = i + 1; j < row.Length; j++)
                 {
-                    if (row[min] > row[j])
+                    if (row[i] > row[j])
                     {
-                        Swap(ref row[min], ref row[j]);
-                        Swap(ref addArray[min], ref addArray[j]);
-                        min = j;
+                        Swap(ref row[i], ref row[j]);
+                        Swap(ref addArray[i], ref addArray[j]);
                     }
                 }
 
             }
         }
+
+        public static void OrderByDescending(double[] row, int[] addArray)
+        {
+
+            for (int i = 0; i < row.Length; i++)
+            {
+                addArray[i] = i + 1;
+            }
+            for (int i = 1; i < row.Length; i++)
+            {
+                for (int j = 0; j < row.Length - i; j++)
+                {
+                    if (row[j] < row[j + 1])
+                    {
+                        Swap(ref row[j], ref row[j + 1]);
+                        Swap(ref addArray[j], ref addArray[j + 1]);
+                    }
+                }
+
+            }
+        }
+
         public static void SetRanking(int[] rankingOfIndex, double[] array, ref string resultRow)
         {
             for (int i = 0; i < array.Length; i++)
@@ -315,6 +333,37 @@ namespace CourseProject
             }
         }
 
+        public static double[] GetWeights(double[,] matrix)
+        {
+            int rows = matrix.GetUpperBound(0) + 1;
+            int columns = matrix.Length / rows;
+
+            double[] weights = new double[rows];
+            double[] teta = new double[rows];
+            double sumTet = 0;
+            double Mult = 1;
+
+            for (int i = 0; i < rows; i++)
+            {
+                Mult = 1;
+                for (int j = 0; j <columns; j++)
+                {
+                    Mult *= matrix[i, j];
+                }
+                teta[i] = Math.Pow(Mult,1.0/rows);
+                sumTet += teta[i];
+            }
+
+            for (int i = 0; i < rows; i++)
+            {
+                weights[i] = teta[i] / sumTet;
+            }
+
+            return weights;
+
+
+        }
+
         public static void Swap(ref int first, ref int second)
         {
             int tmp;
@@ -323,9 +372,9 @@ namespace CourseProject
             second = tmp;
         }
 
-        public static void Swap<T>(ref T first, ref T second) where T : struct
+        public static void Swap(ref double first, ref double second)
         {
-            T tmp;
+            double tmp;
             tmp = first;
             first = second;
             second = tmp;
