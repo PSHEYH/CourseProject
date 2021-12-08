@@ -134,8 +134,20 @@ namespace CourseProject
             }
 
             dataGridView4.DataSource = coefOfCriterii;
-            dataGridView4.AutoSizeColumnsMode =
-        DataGridViewAutoSizeColumnsMode.AllCells;
+
+            DataTable weigthCoef = new DataTable();
+            weigthCoef.Columns.Add("Назва");
+            weigthCoef.Columns.Add("Ваговий коеф.");
+
+            for (int j = 0; j < phoneTable.Columns.Count - 1; j++)
+            {
+                weigthCoef.Rows.Add(coefOfCriterii.Columns[j + 1].ColumnName, weightCoefs[j]);
+            }
+
+            dataGridView5.DataSource = weigthCoef;
+
+            dataGridView4.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridView5.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView4.AllowUserToAddRows = false;
         }
@@ -324,6 +336,9 @@ namespace CourseProject
         {
             dataGridView3.Columns.Clear();
             dataGridView3.AllowUserToAddRows = false;
+            dataGridView3.ReadOnly = true;
+
+
             DataTable phoneTable = new DataTable("SMARTPHONES");
             phoneTable.Columns.Add("Ім'я");
             phoneTable.Columns.Add("Розмірність");
@@ -336,13 +351,13 @@ namespace CourseProject
             phoneTable.Columns.Add("Тип динаміка");
             phoneTable.Columns.Add("Ціна");
             phoneTable.Columns.Add("Коефіцієнти глобальних пріорітетів");
-
+            
 
             for (int i = 0; i < dataGridView2.Rows.Count - 1; i++)
             {
                 phoneTable.Rows.Add($"Alt {i + 1}");
-
             }
+            
             dataGridView3.DataSource = phoneTable;
             int rows = dataGridView2.Rows.Count - 1;
             int columns = dataGridView2.Columns.Count - 1;
@@ -394,7 +409,7 @@ namespace CourseProject
             {
                 for (int j = 0; j < columns; j++)
                 {
-                    globalCoef[i] += result[i, j] * Convert.ToDouble(dataGridView4[1, j].Value);
+                    globalCoef[i] += result[i, j] * weightCoefs[j];
                 }
             }
 
@@ -476,6 +491,11 @@ namespace CourseProject
             }
 
             weightCoefs = Algorithms.GetWeights(matrixOfSimile);
+
+            for (int i = 0; i < weightCoefs.Length; i++)
+            {
+                dataGridView5[1, i].Value = weightCoefs[i];
+            }
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -499,6 +519,11 @@ namespace CourseProject
             {
                 MessageBox.Show(ex.Message, "Помилка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void tabPage3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
