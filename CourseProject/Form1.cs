@@ -107,7 +107,7 @@ namespace CourseProject
             foreach (Smartphone s in smartphones)
             {
                 phoneTable.Rows.Add($"Alt_{i}",
-                    ConvertToString(s.Resolution), s.Weight, s.MaxFrequency, s.SizeOfStorage, s.RAM, s.BateryVolume, s.MatrixOfCamera, s.Speaker, s.Price);
+                    Mapper.ConvertToString(s.Resolution), s.Weight, s.MaxFrequency, s.SizeOfStorage, s.RAM, s.BateryVolume, s.MatrixOfCamera, s.Speaker, s.Price);
                 i++;
             }
 
@@ -129,7 +129,7 @@ namespace CourseProject
             
             for (int j = 0; j < phoneTable.Columns.Count - 1; j++)
             {
-                coefOfCriterii.Rows.Add(coefOfCriterii.Columns[j + 1].ColumnName, weightCoefs[j]);
+                coefOfCriterii.Rows.Add(coefOfCriterii.Columns[j + 1].ColumnName);
             }
 
             dataGridView4.DataSource = coefOfCriterii;
@@ -152,144 +152,54 @@ namespace CourseProject
             
         }
 
-        private string ConvertToString((int, int) resolution)
-        {
-            return $"{resolution.Item1}x{resolution.Item2}";
-        }
-
-
-        private void StartWithDigit(string cell)
-        {
-
-            if (!Char.IsDigit(cell[0]))
-            {
-                throw new Exception(" Value doesn't start with a digit");
-            }
-        }
-
-        private int MapFromSpeakerToInt(string cell)
-        {
-            if (cell == "Mono" || cell == "mono" || cell == "MONO")
-            {
-                return 0;
-            }
-            else if (cell == "Stereo" || cell == "stereo" || cell == "STEREO")
-            {
-                return 1;
-            }
-            throw new Exception("  Not correct value in cell for speaker");
-        }
-
-        private (int, int) MapFromResolutionToInt(string cell)
-        {
-            int first = 0;
-            int second = 0;
-
-            StartWithDigit(cell);
-
-            string result = "";
-            for (int i = 0; i < cell.Length; i++)
-            {
-                if (i != 0 && cell[i] == 'x')
-                {
-                    first = Convert.ToInt32(result);
-                    result = "";
-                }
-                else if (!Char.IsDigit(cell[i]))
-                    break;
-                else
-                {
-                    result += cell[i];
-                }
-            }
-
-            second = Convert.ToInt32(result);
-            return (first, second);
-        }
-
-        private int MapFromWeightToInt(string cell)
-        {
-            int value;
-            StartWithDigit(cell);
-            string result = "";
-            for (int i = 0; i < cell.Length; i++)
-            {
-                if (cell[i] == ' ' || !Char.IsDigit(cell[i]))
-                {
-                    break;
-                }
-                else
-                {
-                    result += cell[i];
-                }
-            }
-            value = Convert.ToInt32(result);
-            return value;
-        }
-        private double MapFromPriceToDouble(string cell)
-        {
-            double value;
-            StartWithDigit(cell);
-            string result = "";
-
-            for (int i = 0; i < cell.Length; i++)
-            {
-                if (cell[i] == ' ' || !Char.IsDigit(cell[i]) && cell[i] != ',' && cell[i] != '.')
-                {
-                    break;
-                }
-                else
-                    result += cell[i];
-            }
-
-            if (result.Contains("."))
-            {
-                result.Replace('.', ',');
-            }
-
-            value = Convert.ToDouble(result);
-            return value;
-
-        }
+        
 
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int rows = dataGridView1.Rows.Count;
-            int columns = dataGridView1.Columns.Count - 3;
-            int[,] matrix = new int[rows, columns];
-
-            for (int i = 0; i < rows; i++)
+            try
             {
-                for (int j = 0; j < columns; j++)
+                int rows = dataGridView1.Rows.Count;
+                int columns = dataGridView1.Columns.Count - 3;
+                int[,] matrix = new int[rows, columns];
+
+                for (int i = 0; i < rows; i++)
                 {
-                    matrix[i, j] = Convert.ToInt32(dataGridView1[j + 1, i].Value);
+                    for (int j = 0; j < columns; j++)
+                    {
+                        matrix[i, j] = Convert.ToInt32(dataGridView1[j + 1, i].Value);
+                    }
                 }
+
+                double[] average = Algorithms.Average(matrix);
+                double[] medians = Algorithms.MedianRang(matrix);
+
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                {
+                    dataGridView1.Rows[i].Cells[dataGridView1.ColumnCount - 2].Value = average[i];
+                    dataGridView1.Rows[i].Cells[dataGridView1.ColumnCount - 1].Value = medians[i];
+                }
+
+                string resultRangs = "";
+                int[] addArray = new int[rows];
+
+                Algorithms.OrderByAscending(average, addArray);
+                Algorithms.SetRanking(addArray, average, ref resultRangs);
+
+                textBox1.Text = resultRangs;
+                textBox4.Text = resultRangs;
+
+                resultRangs = "";
+                Algorithms.OrderByAscending(medians, addArray);
+                Algorithms.SetRanking(addArray, medians, ref resultRangs);
+
+                textBox2.Text = resultRangs;
+                textBox5.Text = resultRangs;
             }
-
-            double[] average = Algorithms.Average(matrix);
-            double[] medians = Algorithms.MedianRang(matrix);
-
-            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            catch
             {
-                dataGridView1.Rows[i].Cells[dataGridView1.ColumnCount - 2].Value = average[i];
-                dataGridView1.Rows[i].Cells[dataGridView1.ColumnCount - 1].Value = medians[i];
+                MessageBox.Show("Таблиця не була створена","Помилка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            string resultRangs = "";
-            int[] addArray = new int[rows];
-
-            Algorithms.OrderByAscending(average, addArray);
-            Algorithms.SetRanking(addArray, average, ref resultRangs);
-
-            textBox1.Text = resultRangs;
-
-            resultRangs = "";
-            Algorithms.OrderByAscending(medians, addArray);
-            Algorithms.SetRanking(addArray, medians, ref resultRangs);
-
-            textBox2.Text = resultRangs;
-
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -383,19 +293,19 @@ namespace CourseProject
                 {
                     if (j == 0)
                     {
-                        resolution[i] = MapFromResolutionToInt(matrixStrings[i, j]);
+                        resolution[i] = Mapper.MapFromResolutionToInt(matrixStrings[i, j]);
                     }
                     else if (j > 0 && j < columns - 2)
                     {
-                        otherData[i, j - 1] = MapFromWeightToInt(matrixStrings[i, j]);
+                        otherData[i, j - 1] = Mapper.MapFromWeightToInt(matrixStrings[i, j]);
                     }
                     else if (j == columns - 2)
                     {
-                        otherData[i, j - 1] = MapFromSpeakerToInt(matrixStrings[i, j]);
+                        otherData[i, j - 1] = Mapper.MapFromSpeakerToInt(matrixStrings[i, j]);
                     }
                     else
                     {
-                        prices[i] = MapFromPriceToDouble(matrixStrings[i, j]);
+                        prices[i] = Mapper.MapFromPriceToDouble(matrixStrings[i, j]);
                     }
                 }
             }
@@ -423,7 +333,7 @@ namespace CourseProject
             Algorithms.OrderByDescending(globalCoef,extraArray);
             Algorithms.SetRanking(extraArray, globalCoef, ref resulRanking);
             textBox3.Text = resulRanking;
-
+            textBox6.Text = resulRanking;
         }
 
 
@@ -502,24 +412,31 @@ namespace CourseProject
 
         private void button5_Click(object sender, EventArgs e)
         {
-            int rows = dataGridView4.Rows.Count;
-            int columns = dataGridView4.Columns.Count - 1;
-
-            double[,] matrixOfSimile = new double[rows, columns];
-
-            for (int i = 0; i < rows; i++)
+            try
             {
-                for (int j = 0; j < columns; j++)
+                int rows = dataGridView4.Rows.Count;
+                int columns = dataGridView4.Columns.Count - 1;
+
+                double[,] matrixOfSimile = new double[rows, columns];
+
+                for (int i = 0; i < rows; i++)
                 {
-                    matrixOfSimile[i, j] = Convert.ToDouble(dataGridView4[j + 1, i].Value);
+                    for (int j = 0; j < columns; j++)
+                    {
+                        matrixOfSimile[i, j] = Convert.ToDouble(dataGridView4[j + 1, i].Value);
+                    }
+                }
+
+                weightCoefs = Algorithms.GetWeights(matrixOfSimile);
+
+                for (int i = 0; i < weightCoefs.Length; i++)
+                {
+                    dataGridView5[1, i].Value = weightCoefs[i];
                 }
             }
-
-            weightCoefs = Algorithms.GetWeights(matrixOfSimile);
-
-            for (int i = 0; i < weightCoefs.Length; i++)
+            catch
             {
-                dataGridView5[1, i].Value = weightCoefs[i];
+                MessageBox.Show("В таблиці немає даних", "Помилка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
