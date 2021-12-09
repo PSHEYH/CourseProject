@@ -93,18 +93,37 @@ namespace CourseProject
                     else if (j == 1)
                     {
                         result[i, j] = normalizeWeights[i];
-                        dataGrid[j + 1, i].Value = result[i, j].ToString();
                     }
                     else if (j != columns + 1)
                     {
                         result[i, j] = otherNormalize[i, j - 2];
-                        dataGrid[j + 1, i].Value = result[i, j].ToString();
                     }
                     else
                     {
                         result[i, j] = normalizePrices[i];
-                        dataGrid[j + 1, i].Value = result[i, j].ToString(); 
                     }
+                }
+            }
+
+            double[] lenght = new double[columns+2];
+
+
+            for (int i = 0; i < columns + 2; i++)
+            {
+                for (int j = 0; j < rows; j++)
+                {
+                    lenght[i] += Math.Pow(result[j, i],2);
+                }
+
+                lenght[i] = Math.Sqrt(lenght[i]);
+            }
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < columns + 2; j++)
+                {
+                    result[i, j] = result[i, j] / lenght[j];
+                    dataGrid[j + 1, i].Value = result[i, j];
                 }
             }
 
@@ -258,6 +277,7 @@ namespace CourseProject
             {
                 addArray[i] = i + 1;
             }
+
             for (int i = 0; i < row.Length - 1; i++)
             {
                 for (int j = i + 1; j < row.Length; j++)

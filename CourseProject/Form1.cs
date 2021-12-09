@@ -21,7 +21,7 @@ namespace CourseProject
         }
 
         private string fileName = string.Empty;
-        private DataTable table;
+        
         double[] weightCoefs = { 0.12, 0.1, 0.12, 0.1, 0.12, 0.12, 0.14, 0.1, 0.07 };
 
         List<Smartphone> smartphones = new List<Smartphone>()
@@ -92,7 +92,6 @@ namespace CourseProject
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //dataGridView2.AllowUserToAddRows = false;
             DataTable phoneTable = new DataTable("SMARTPHONES");
             phoneTable.Columns.Add("Ім'я");
             phoneTable.Columns.Add("Розмірність");
@@ -150,6 +149,7 @@ namespace CourseProject
             dataGridView5.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView2.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dataGridView4.AllowUserToAddRows = false;
+            
         }
 
         private string ConvertToString((int, int) resolution)
@@ -277,7 +277,7 @@ namespace CourseProject
             }
 
             string resultRangs = "";
-            int[] addArray = new int[columns];
+            int[] addArray = new int[rows];
 
             Algorithms.OrderByAscending(average, addArray);
             Algorithms.SetRanking(addArray, average, ref resultRangs);
@@ -431,6 +431,7 @@ namespace CourseProject
         {
             FileStream fileStream = File.Open(path, FileMode.Open, FileAccess.Read);
 
+            DataTable table;
             IExcelDataReader reader = ExcelReaderFactory.CreateReader(fileStream);
 
             DataSet db = reader.AsDataSet(new ExcelDataSetConfiguration
@@ -446,6 +447,30 @@ namespace CourseProject
             dataGrid.DataSource = table;
 
         }
+
+        private void OpenExcelFile(string path)
+        {
+            FileStream fileStream = File.Open(path, FileMode.Open, FileAccess.Read);
+
+            DataTable table;
+            IExcelDataReader reader = ExcelReaderFactory.CreateReader(fileStream);
+
+            DataSet db = reader.AsDataSet(new ExcelDataSetConfiguration
+            {
+                ConfigureDataTable = (x) => new ExcelDataTableConfiguration()
+                {
+                    UseHeaderRow = true
+                }
+
+            });
+
+            table = db.Tables[0];
+            table.Columns.Add("AVG");
+            table.Columns.Add("MED");
+            dataGridView1.DataSource = table;
+
+        }
+
 
         private void button3_Click_1(object sender, EventArgs e)
         {
@@ -524,6 +549,31 @@ namespace CourseProject
         private void tabPage3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                DialogResult result = openFileDialog1.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    fileName = openFileDialog1.FileName;
+                    Text = fileName;
+                    OpenExcelFile(fileName);
+                    dataGridView1.AllowUserToAddRows = false;
+                }
+                else
+                {
+                    throw new Exception(" Файл не був вибраний");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Помилка!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
