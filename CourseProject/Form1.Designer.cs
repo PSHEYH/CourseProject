@@ -59,12 +59,12 @@ namespace CourseProject
             this.button2 = new System.Windows.Forms.Button();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.textBox6 = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView4)).BeginInit();
             this.tabPage3.SuspendLayout();
@@ -93,7 +93,7 @@ namespace CourseProject
             this.tabPage4.Controls.Add(this.dataGridView4);
             this.tabPage4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
-            this.tabPage4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage4.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Size = new System.Drawing.Size(1889, 598);
             this.tabPage4.TabIndex = 3;
@@ -102,7 +102,7 @@ namespace CourseProject
             // button6
             // 
             this.button6.Location = new System.Drawing.Point(440, 492);
-            this.button6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button6.Margin = new System.Windows.Forms.Padding(4);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(307, 48);
             this.button6.TabIndex = 20;
@@ -113,7 +113,7 @@ namespace CourseProject
             // button5
             // 
             this.button5.Location = new System.Drawing.Point(40, 492);
-            this.button5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button5.Margin = new System.Windows.Forms.Padding(4);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(344, 48);
             this.button5.TabIndex = 19;
@@ -183,7 +183,7 @@ namespace CourseProject
             // 
             this.textBox3.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.textBox3.Location = new System.Drawing.Point(1255, 89);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(4);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(435, 35);
             this.textBox3.TabIndex = 1;
@@ -303,9 +303,9 @@ namespace CourseProject
             this.label2.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label2.Location = new System.Drawing.Point(1152, 484);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(322, 27);
+            this.label2.Size = new System.Drawing.Size(315, 27);
             this.label2.TabIndex = 6;
-            this.label2.Text = "Введите кількість альтернатив";
+            this.label2.Text = "Введіть кількість альтернатив";
             // 
             // numericUpDown2
             // 
@@ -435,24 +435,24 @@ namespace CourseProject
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Результуючі ранжировки";
             // 
-            // textBox4
+            // label9
             // 
-            this.textBox4.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox4.Location = new System.Drawing.Point(431, 112);
-            this.textBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(572, 34);
-            this.textBox4.TabIndex = 13;
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label9.Location = new System.Drawing.Point(426, 288);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(287, 54);
+            this.label9.TabIndex = 17;
+            this.label9.Text = "Ранжировка альтернатив \r\nметодом анализа иерархий";
             // 
-            // label5
+            // textBox6
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label5.Location = new System.Drawing.Point(423, 42);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(375, 54);
-            this.label5.TabIndex = 12;
-            this.label5.Text = "Ранжировка альтернатив \r\nза методом середніх арифметичних";
+            this.textBox6.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBox6.Location = new System.Drawing.Point(428, 358);
+            this.textBox6.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(575, 35);
+            this.textBox6.TabIndex = 16;
             // 
             // label6
             // 
@@ -473,24 +473,24 @@ namespace CourseProject
             this.textBox5.Size = new System.Drawing.Size(573, 34);
             this.textBox5.TabIndex = 15;
             // 
-            // label9
+            // textBox4
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label9.Location = new System.Drawing.Point(426, 288);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(287, 54);
-            this.label9.TabIndex = 17;
-            this.label9.Text = "Ранжировка альтернатив \r\nметодом анализа иерархий";
+            this.textBox4.Font = new System.Drawing.Font("Times New Roman", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBox4.Location = new System.Drawing.Point(431, 112);
+            this.textBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(572, 34);
+            this.textBox4.TabIndex = 13;
             // 
-            // textBox6
+            // label5
             // 
-            this.textBox6.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox6.Location = new System.Drawing.Point(428, 358);
-            this.textBox6.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(575, 35);
-            this.textBox6.TabIndex = 16;
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label5.Location = new System.Drawing.Point(423, 42);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(375, 54);
+            this.label5.TabIndex = 12;
+            this.label5.Text = "Ранжировка альтернатив \r\nза методом середніх арифметичних";
             // 
             // Form1
             // 

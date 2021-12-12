@@ -22,7 +22,7 @@ namespace CourseProject
 
         private string fileName = string.Empty;
         
-        double[] weightCoefs = { 0.12, 0.1, 0.12, 0.1, 0.12, 0.12, 0.14, 0.1, 0.07 };
+        double[] weightCoefs = { 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11, 0.11 };
 
         List<Smartphone> smartphones = new List<Smartphone>()
         {
